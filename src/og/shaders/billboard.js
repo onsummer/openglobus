@@ -154,7 +154,7 @@ export function billboard_screen() {
                 v_texCoords = a_texCoord;
                 vec3 look = a_positions - uCamPos;
                 float lookLength = length(look);
-                v_rgba = a_rgba;
+                v_rgba = vec4(a_rgba.rgb, uOpacity * a_rgba.a);
                 /*v_rgba.a *= uOpacity * step(lookLength, sqrt(dot(uCamPos,uCamPos) - uFloatParams[0]) + sqrt(dot(a_positions,a_positions) - uFloatParams[0]));*/
                 if(uOpacity * step(lookLength, sqrt(dot(uCamPos,uCamPos) - uFloatParams[0]) + sqrt(dot(a_positions,a_positions) - uFloatParams[0])) == 0.0){
                     return;
