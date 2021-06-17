@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "dist/typings",
+    "allowJs": true,
+    "checkJs": false,
+    "strict": true
+  },
+  "include": [
+    "src/og/**/*"
+  ]
+}

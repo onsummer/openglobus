@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-import { Mat4 } from '../math/Mat4.js';
+import { Mat4 } from "../math/Mat4.js";
 
 function planeNormalize(plane) {
     var t = 1.0 / Math.sqrt(plane[0] * plane[0] + plane[1] * plane[1] + plane[2] * plane[2]);
@@ -19,7 +19,7 @@ class Frustum {
         /**
          * Frustum planes.
          * @private
-         * @type {Array.<Array.<number>>}
+         * @type {number[][]}
          */
         this._f = new Array(6);
         for (var i = 0; i < 6; i++) {
@@ -29,28 +29,28 @@ class Frustum {
         /**
          * Camera projection matrix.
          * @protected
-         * @type {og.Mat4}
+         * @type {Mat4}
          */
         this._projectionMatrix = new Mat4();
 
         /**
          * Camera inverse projection matrix.
          * @protected
-         * @type {og.Mat4}
+         * @type {Mat4}
          */
         this._inverseProjectionMatrix = new Mat4();
 
         /**
          * Product of projection and view matrices.
          * @protected
-         * @type {og.Mat4}
+         * @type {Mat4}
          */
         this._projectionViewMatrix = new Mat4();
 
         /**
          * Inverse projectionView Matrix.
          * @protected
-         * @type {og.Mat4}
+         * @type {Mat4}
          */
         this._inverseProjectionViewMatrix = new Mat4();
 
@@ -85,7 +85,8 @@ class Frustum {
          */
         this.far = 0.0;
 
-        this._cameraFrustumIndex = options.cameraFrustumIndex != undefined ? options.cameraFrustumIndex : -1;
+        this._cameraFrustumIndex =
+            options.cameraFrustumIndex != undefined ? options.cameraFrustumIndex : -1;
 
         this.setProjectionMatrix(
             options.fov || 30.0,
@@ -134,21 +135,27 @@ class Frustum {
     /**
      * Sets up camera projection matrix.
      * @public
-     * @param {nnumber} angle - Camera's view angle.
+     * @param {number} angle - Camera's view angle.
      * @param {number} aspect - Screen aspect ration.
      * @param {number} near - Near camera distance.
      * @param {number} far - Far camera distance.
      */
     setProjectionMatrix(angle, aspect, near, far) {
-
-        this.top = near * Math.tan(angle * Math.PI / 360);
+        this.top = near * Math.tan((angle * Math.PI) / 360);
         this.bottom = -this.top;
         this.right = this.top * aspect;
         this.left = -this.right;
         this.near = near;
         this.far = far;
 
-        this._projectionMatrix.setPerspective(this.left, this.right, this.bottom, this.top, near, far);
+        this._projectionMatrix.setPerspective(
+            this.left,
+            this.right,
+            this.bottom,
+            this.top,
+            near,
+            far
+        );
         this._projectionMatrix.inverseTo(this._inverseProjectionMatrix);
     }
 
@@ -158,7 +165,6 @@ class Frustum {
      * @param {Mat4} projectionView - projectionView matrix.
      */
     setViewMatrix(viewMatrix) {
-
         this._projectionViewMatrix = this._projectionMatrix.mul(viewMatrix);
         this._projectionViewMatrix.inverseTo(this._inverseProjectionViewMatrix);
 
@@ -210,7 +216,7 @@ class Frustum {
     /**
      * Returns true if a point in the frustum.
      * @public
-     * @param {og.Vec3} point - Cartesian point.
+     * @param {Vec3} point - Cartesian point.
      * @returns {boolean} -
      */
     containsPoint(point) {
@@ -227,7 +233,7 @@ class Frustum {
     /**
      * Returns true if the frustum contains a bonding sphere, but bottom plane exclude.
      * @public
-     * @param {og.bv.Sphere} sphere - Bounding sphere.
+     * @param {import('../bv/Sphere').Sphere} sphere - Bounding sphere.
      * @returns {boolean} -
      */
     containsSphereBottomExc(sphere) {
@@ -251,7 +257,7 @@ class Frustum {
     /**
      * Returns true if the frustum contains a bonding sphere.
      * @public
-     * @param {og.bv.Sphere} sphere - Bounding sphere.
+     * @param {import('../bv/Sphere').Sphere} sphere - Bounding sphere.
      * @returns {boolean} -
      */
     containsSphere(sphere) {
@@ -287,15 +293,17 @@ class Frustum {
     /**
      * Returns true if the frustum contains a bounding box.
      * @public
-     * @param {og.bv.Box} box - Bounding box.
+     * @param {import('../bv/Box').Box} box - Bounding box.
      * @returns {boolean} -
      */
     containsBox(box) {
-        var result = true, cout, cin;
+        var result = true,
+            cout,
+            cin;
 
         for (var i = 0; i < 6; i++) {
-
-            cout = 0; cin = 0;
+            cout = 0;
+            cin = 0;
 
             for (var k = 0; k < 8 && (cin === 0 || cout === 0); k++) {
                 var d = box.vertices[k].dotArr(this._f[i]) + this._f[i][3];
@@ -315,6 +323,6 @@ class Frustum {
 
         return result;
     }
-};
+}
 
 export { Frustum };

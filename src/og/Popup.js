@@ -1,27 +1,24 @@
-'use strict';
+"use strict";
 
-import { Events } from './Events.js';
-import { Vec3 } from './math/Vec3.js';
-import { getHTML, parseHTML, createLonLat } from './utils/shared.js';
+import { Events } from "./Events.js";
+import { Vec3 } from "./math/Vec3.js";
+import { getHTML, parseHTML, createLonLat } from "./utils/shared.js";
 
-const TEMPLATE =
-    `<div class="og-popup {className}">
-      <div class="og-popup-content-wrapper">
+const TEMPLATE = html`<div class="og-popup {className}">
+    <div class="og-popup-content-wrapper">
         <div class="og-popup-content"></div>
-      </div>
-      <div class="og-popup-tip-container">
+    </div>
+    <div class="og-popup-tip-container">
         <div class="og-popup-tip"></div>
-      </div>
-      <div class="og-popup-toolbar">
+    </div>
+    <div class="og-popup-toolbar">
         <div class="og-popup-btn og-popup-close">×</div>
-      </div>
-      <div class="og-popup-title">
-      </div>
-    </div>`;
+    </div>
+    <div class="og-popup-title"></div>
+</div>`;
 
 class Popup {
     constructor(options) {
-
         this._id = Popup._staticCounter++;
 
         this.events = new Events(["open", "close"]);
@@ -72,7 +69,12 @@ class Popup {
 
     setScreen(p) {
         if (this._planet) {
-            this.el.style.transform = "translate(" + (p.x - this.clientWidth * 0.5) + "px, " + (p.y - this._planet.renderer.handler.canvas.height - this.clientHeight * 0.5) + "px)"
+            this.el.style.transform =
+                "translate(" +
+                (p.x - this.clientWidth * 0.5) +
+                "px, " +
+                (p.y - this._planet.renderer.handler.canvas.height - this.clientHeight * 0.5) +
+                "px)";
         }
     }
 
@@ -97,7 +99,7 @@ class Popup {
     render(params) {
         this.el = this._renderTemplate(params);
         this._contentEl = this.el.querySelector(".og-popup-content");
-        this._titleEl = this.el.querySelector(".og-popup-title")
+        this._titleEl = this.el.querySelector(".og-popup-title");
         this.setOffset(this._offset[0], this._offset[1]);
         this.setContent(this._content);
         this.setTitle(this._title);
@@ -147,7 +149,6 @@ class Popup {
     }
 
     setCartesian3v(cart, height = 0) {
-
         this._cartPos = cart;
 
         if (this._planet) {
@@ -186,10 +187,10 @@ class Popup {
         if (content) {
             this.clear();
             this._content = content;
-            if (typeof content === 'string') {
+            if (typeof content === "string") {
                 this._contentEl.innerHTML = content;
             } else {
-                this._contentEl.appendChild(content)
+                this._contentEl.appendChild(content);
             }
         }
         return this;

@@ -2,15 +2,15 @@
  * @module og/layer/Layer
  */
 
-'use strict';
+"use strict";
 
-import * as utils from '../utils/shared.js';
-import * as mercator from '../mercator.js';
-import { Events } from '../Events.js';
-import { Extent } from '../Extent.js';
-import { LonLat } from '../LonLat.js';
-import { Material } from './Material.js';
-import { Vec3 } from '../math/Vec3.js';
+import * as utils from "../utils/shared.js";
+import * as mercator from "../mercator.js";
+import { Events } from "../Events.js";
+import { Extent } from "../Extent.js";
+import { LonLat } from "../LonLat.js";
+import { Material } from "./Material.js";
+import { Vec3 } from "../math/Vec3.js";
 
 export const FADING_FACTOR = 0.29;
 
@@ -19,20 +19,6 @@ export const FADING_FACTOR = 0.29;
  * Base class; normally only used for creating subclasses and not instantiated in apps.
  * A visual representation of raster or vector map data well known as a layer.
  * @class
- * @param {String} [name="noname"] - Layer name.
- * @param {Object} [options] - Layer options:
- * @param {number} [options.opacity=1.0] - Layer opacity.
- * @param {Array.<number,number,number>} [options.transparentColor=[-1,-1,-1]] - RGB color that defines transparent color.
- * @param {number} [options.minZoom=0] - Minimal visibility zoom level.
- * @param {number} [options.maxZoom=0] - Maximal visibility zoom level.
- * @param {string} [options.attribution] - Layer attribution that displayed in the attribution area on the screen.
- * @param {boolean} [options.isBaseLayer=false] - This is a base layer.
- * @param {boolean} [options.visibility=true] - Layer visibility.
- * @param {og.Extent} [options.extent=[[-180.0, -90.0], [180.0, 90.0]]] - Visible extent.
- * @param {og.Vec3} [options.ambient=[0.1, 0.1, 0.21]] - Ambient RGB color.
- * @param {og.Vec3} [options.diffuse=[1.0, 1.0, 1.0]] - Diffuse RGB color.
- * @param {og.Vec3} [options.specular=[0.00025, 0.00015, 0.0001]] - Specular RGB color.
- * @param {Number} [options.shininess=100] - Shininess.
  *
  * @fires og.Layer#visibilitychange
  * @fires og.Layer#add
@@ -62,8 +48,24 @@ export const FADING_FACTOR = 0.29;
  * @fires og.layer.Vector#doubletouch
  */
 class Layer {
+    /**
+     * @constructor
+     * @param {string} [name="noname"] - Layer name.
+     * @param {Object} [options] - Layer options:
+     * @param {number} [options.opacity=1.0] - Layer opacity.
+     * @param {[number,number,number]} [options.transparentColor=[-1,-1,-1]] - RGB color that defines transparent color.
+     * @param {number} [options.minZoom=0] - Minimal visibility zoom level.
+     * @param {number} [options.maxZoom=0] - Maximal visibility zoom level.
+     * @param {string} [options.attribution] - Layer attribution that displayed in the attribution area on the screen.
+     * @param {boolean} [options.isBaseLayer=false] - This is a base layer.
+     * @param {boolean} [options.visibility=true] - Layer visibility.
+     * @param {Extent} [options.extent=[[-180.0, -90.0], [180.0, 90.0]]] - Visible extent.
+     * @param {Vec3} [options.ambient=[0.1, 0.1, 0.21]] - Ambient RGB color.
+     * @param {Vec3} [options.diffuse=[1.0, 1.0, 1.0]] - Diffuse RGB color.
+     * @param {Vec3} [options.specular=[0.00025, 0.00015, 0.0001]] - Specular RGB color.
+     * @param {number} [options.shininess=100] - Shininess.
+     */
     constructor(name, options = {}) {
-
         /**
          * Layer user name.
          * @public
@@ -73,7 +75,8 @@ class Layer {
 
         this._labelMaxLetters = options.labelMaxLetters;
 
-        this.displayInLayerSwitcher = options.displayInLayerSwitcher !== undefined ? options.displayInLayerSwitcher : true;
+        this.displayInLayerSwitcher =
+            options.displayInLayerSwitcher !== undefined ? options.displayInLayerSwitcher : true;
 
         this._hasImageryTiles = true;
 
@@ -191,7 +194,12 @@ class Layer {
         this._extentMerc = null;
 
         // Setting the extent up
-        this.setExtent(utils.createExtent(options.extent, new Extent(new LonLat(-180.0, -90.0), new LonLat(180.0, 90.0))));
+        this.setExtent(
+            utils.createExtent(
+                options.extent,
+                new Extent(new LonLat(-180.0, -90.0), new LonLat(180.0, 90.0))
+            )
+        );
 
         /**
          * Layer picking color. Assign when added to the planet.
@@ -297,7 +305,7 @@ class Layer {
     /**
      * Compares layers instances.
      * @public
-     * @param {og.Layer} layer - Layer instance to compare.
+     * @param {Layer} layer - Layer instance to compare.
      * @returns {boolean} - Returns true if the layers is the same instance of the input.
      */
     isEqual(layer) {
@@ -308,7 +316,7 @@ class Layer {
      * Assign the planet.
      * @protected
      * @virtual
-     * @param {og.scene.Planet} planet - Planet render node.
+     * @param {import('../scene/Planet').Planet} planet - Planet render node.
      */
     _assignPlanet(planet) {
         planet.layers.push(this);
@@ -335,7 +343,7 @@ class Layer {
     /**
      * Adds layer to the planet.
      * @public
-     * @param {og.scene.Planet} planet - Adds layer to the planet.
+     * @param {import('../scene/Planet').Planet} planet - Adds layer to the planet.
      */
     addTo(planet) {
         if (!this._planet) {
@@ -347,7 +355,7 @@ class Layer {
     /**
      * Removes from planet.
      * @public
-     * @returns {og.Layer} -This layer.
+     * @returns {Layer} -This layer.
      */
     remove() {
         var p = this._planet;
@@ -501,7 +509,7 @@ class Layer {
     /**
      * Sets visible geographical extent.
      * @public
-     * @param {og.Extent} extent - Layer visible geographical extent.
+     * @param {Extent} extent - Layer visible geographical extent.
      */
     setExtent(extent) {
         var sw = extent.southWest.clone(),
@@ -520,7 +528,7 @@ class Layer {
     /**
      * Gets layer extent.
      * @public
-     * @return {og.Extent} - Layer geodetic extent.
+     * @return {Extent} - Layer geodetic extent.
      */
     getExtent() {
         return this._extent;
@@ -551,18 +559,23 @@ class Layer {
 
     _refreshFadingOpacity() {
         var p = this._planet;
-        if (this._visibility && p._viewExtent && p._viewExtent.overlaps(this._extent) &&
-            p.maxCurrZoom >= this.minZoom && p.minCurrZoom <= this.maxZoom) {
-
+        if (
+            this._visibility &&
+            p._viewExtent &&
+            p._viewExtent.overlaps(this._extent) &&
+            p.maxCurrZoom >= this.minZoom &&
+            p.minCurrZoom <= this.maxZoom
+        ) {
             this._fadingOpacity += this._fadingFactor;
 
-            if ((this._fadingFactor > 0.0 && this._fadingOpacity > this._opacity) ||
-                (this._fadingFactor < 0.0 && this._fadingOpacity < this._opacity)) {
+            if (
+                (this._fadingFactor > 0.0 && this._fadingOpacity > this._opacity) ||
+                (this._fadingFactor < 0.0 && this._fadingOpacity < this._opacity)
+            ) {
                 this._fadingOpacity = this._opacity;
             }
             return false;
         } else {
-
             this._fadingOpacity -= FADING_FACTOR;
 
             if (this._fadingOpacity < 0.0) {

@@ -2,15 +2,18 @@
  * @module og/ImageCanvas
  */
 
-'use strict';
+"use strict";
 
 /**
+ * @classdesc
  * Usefull class for working with JS canvas object.
- * @class
- * @param {number} [width] - Canvas width. Default 256.
- * @param {number} [height] - Canvas height. Default 256.
  */
 class ImageCanvas {
+    /**
+     * @constructor
+     * @param {number} [width] - Canvas width. Default 256.
+     * @param {number} [height] - Canvas height. Default 256.
+     */
     constructor(width, height) {
         /**
          * Canvas object.
@@ -26,7 +29,7 @@ class ImageCanvas {
          * @protected
          * @type {Object}
          */
-        this._context = this._canvas.getContext('2d');
+        this._context = this._canvas.getContext("2d");
     }
 
     /**
@@ -63,7 +66,7 @@ class ImageCanvas {
     /**
      * Gets canvas pixels RGBA data.
      * @public
-     * @returns {Array.<number>}
+     * @returns {number[]}
      */
     getData() {
         var imgd = this._context.getImageData(0, 0, this._canvas.width, this._canvas.height);
@@ -78,12 +81,12 @@ class ImageCanvas {
     fillColor(color) {
         this._context.fillStyle = color;
         this._context.fillRect(0, 0, this._canvas.width, this._canvas.height);
-    };
+    }
 
     /**
      * Sets RGBA pixel data.
      * @public
-     * @param {Array.<number>} data - Array RGBA data.
+     * @param {number[]} data - Array RGBA data.
      */
     setData(data) {
         var imageData = this._context.createImageData(this._canvas.width, this._canvas.height);
@@ -100,7 +103,7 @@ class ImageCanvas {
     resize(width, height) {
         this._canvas.width = width;
         this._canvas.height = height;
-        this._context = this._canvas.getContext('2d');
+        this._context = this._canvas.getContext("2d");
     }
 
     /**
@@ -113,7 +116,7 @@ class ImageCanvas {
      * @param {number} [height] - Image height slice. Image height is default.
      */
     drawImage(img, x, y, width, height) {
-        this._context = this._canvas.getContext('2d');
+        this._context = this._canvas.getContext("2d");
         this._context.drawImage(img, x || 0, y || 0, width || img.width, height || img.height);
     }
 
@@ -151,8 +154,8 @@ class ImageCanvas {
      * @param {string} [color] - Css font color.
      */
     drawText(text, x, y, font, color) {
-        this._context.fillStyle = color || 'black';
-        this._context.font = font || 'normal 14px Verdana';
+        this._context.fillStyle = color || "black";
+        this._context.font = font || "normal 14px Verdana";
         this._context.fillText(text, x || 0, y || 14);
     }
 
@@ -198,14 +201,18 @@ class ImageCanvas {
     openImage() {
         var img = this.getImage();
         var dataUrl = img.src;
-        var windowContent = '<!DOCTYPE html>';
-        windowContent += '<html>';
-        windowContent += '<head><title>Print</title></head>';
-        windowContent += '<body>';
+        var windowContent = "<!DOCTYPE html>";
+        windowContent += "<html>";
+        windowContent += "<head><title>Print</title></head>";
+        windowContent += "<body>";
         windowContent += '<img src="' + dataUrl + '">';
-        windowContent += '</body>';
-        windowContent += '</html>';
-        var printWin = window.open('', '', 'width=' + img.width + 'px ,height=' + img.height + 'px');
+        windowContent += "</body>";
+        windowContent += "</html>";
+        var printWin = window.open(
+            "",
+            "",
+            "width=" + img.width + "px ,height=" + img.height + "px"
+        );
         printWin.document.open();
         printWin.document.write(windowContent);
         printWin.document.close();
@@ -218,6 +225,6 @@ class ImageCanvas {
         this._canvas = null;
         this._context = null;
     }
-};
+}
 
 export { ImageCanvas };

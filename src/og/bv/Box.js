@@ -2,9 +2,9 @@
  * @module og/bv/Box
  */
 
-'use strict';
+"use strict";
 
-import { Vec3 } from '../math/Vec3.js';
+import { Vec3 } from "../math/Vec3.js";
 
 /**
  * Bounding box class.
@@ -15,9 +15,18 @@ class Box {
         /**
          * Vertices array.
          * @public
-         * @type{Array.<og.Vec3>}
+         * @type {[Vec3,Vec3,Vec3,Vec3,Vec3,Vec3,Vec3,Vec3]}
          */
-        this.vertices = [new Vec3(), new Vec3(), new Vec3(), new Vec3(), new Vec3(), new Vec3(), new Vec3(), new Vec3()];
+        this.vertices = [
+            new Vec3(),
+            new Vec3(),
+            new Vec3(),
+            new Vec3(),
+            new Vec3(),
+            new Vec3(),
+            new Vec3(),
+            new Vec3()
+        ];
 
         if (boundsArr) {
             this.setFromBoundsArr(boundsArr);
@@ -26,12 +35,15 @@ class Box {
 
     /**
      * Sets bounding box coordinates by the bounds array.
-     * @param {Array.<number>} bounds - Bounds is an array where [minX, minY, minZ, maxX, maxY, maxZ]
+     * @param {[number,number,number,number,number,number]} bounds - Bounds is an array where [minX, minY, minZ, maxX, maxY, maxZ]
      */
     setFromBoundsArr(bounds) {
-        var xmin = bounds[0], xmax = bounds[3],
-            ymin = bounds[1], ymax = bounds[4],
-            zmin = bounds[2], zmax = bounds[5];
+        var xmin = bounds[0],
+            xmax = bounds[3],
+            ymin = bounds[1],
+            ymax = bounds[4],
+            zmin = bounds[2],
+            zmax = bounds[5];
 
         var v = this.vertices;
 
@@ -47,12 +59,12 @@ class Box {
 
     /**
      * Sets bounding box coordiantes by ellipsoid geodetic extend.
-     * @param {og.Ellipsoid} ellipsoid - Ellipsoid.
-     * @param {og.Extent} extent - Geodetic extent.
+     * @param {import('../ellipsoid').Ellipsoid} ellipsoid - Ellipsoid.
+     * @param {import('../Extent').Extent} extent - Geodetic extent.
      */
     setFromExtent(ellipsoid, extent) {
         this.setFromBoundsArr(extent.getCartesianBounds(ellipsoid));
     }
-};
+}
 
 export { Box };

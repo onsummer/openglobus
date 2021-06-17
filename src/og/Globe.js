@@ -2,22 +2,22 @@
  * @module og/Globe
  */
 
-'use strict';
+"use strict";
 
-import { EmptyTerrain } from './terrain/EmptyTerrain.js';
-import { Handler } from './webgl/Handler.js';
-import { Planet } from './scene/Planet.js';
-import { Renderer } from './renderer/Renderer.js';
-import { wgs84 } from './ellipsoid/wgs84.js';
-import { isEmpty } from './utils/shared.js';
+import { EmptyTerrain } from "./terrain/EmptyTerrain.js";
+import { Handler } from "./webgl/Handler.js";
+import { Planet } from "./scene/Planet.js";
+import { Renderer } from "./renderer/Renderer.js";
+import { wgs84 } from "./ellipsoid/wgs84.js";
+import { isEmpty } from "./utils/shared.js";
 
-import { EarthCoordinates } from './control/EarthCoordinates.js';
-import { MouseNavigation } from './control/MouseNavigation.js';
-import { TouchNavigation } from './control/TouchNavigation.js';
-import { Sun } from './control/Sun.js';
-import { ZoomControl } from './control/ZoomControl.js';
-import { ScaleControl } from './control/ScaleControl.js';
-import { CompassButton } from './control/CompassButton.js';
+import { EarthCoordinates } from "./control/EarthCoordinates.js";
+import { MouseNavigation } from "./control/MouseNavigation.js";
+import { TouchNavigation } from "./control/TouchNavigation.js";
+import { Sun } from "./control/Sun.js";
+import { ZoomControl } from "./control/ZoomControl.js";
+import { ScaleControl } from "./control/ScaleControl.js";
+import { CompassButton } from "./control/CompassButton.js";
 
 /** @const {string} */
 const CANVAS_ID_PREFIX = "globus_viewport_";
@@ -49,21 +49,23 @@ const PLANET_NAME_PREFIX = "globus_planet_";
  *     'autoActivate': true
  * });
  *
- * @param {object} options - Options:
- * @param {string} options.target - HTML element id where planet canvas have to be created.
- * @param {og.scene.RenderNode} [options.skybox] - Render skybox. null - default.
- * @param {string} [options.name] - Planet name. Default is unic identifier.
- * @param {og.terrain.Terrain} [options.terrain] - Terrain provider. Default no terrain - og.terrain.EmptyTerrain.
- * @param {Array.<og.control.Control>} [options.controls] - Renderer controls array.
- * @param {Array.<og.Layer>} [options.layers] - Planet layers.
- * @param {og.Extent} [options.viewExtent] - Viewable starting extent.
- * @param {boolean} [options.autoActivate] - Globe rendering auto activation flag. True is default.
- * @param {DOMElement} [options.attributionContainer] - Container for attribution list.
- * @param {Number} [options.maxGridSize=7] = Maximal segment grid size.
  */
 class Globe {
+    /**
+     * @constructor
+     * @param {object} options - Options:
+     * @param {string} options.target - HTML element id where planet canvas have to be created.
+     * @param {import('./scene/SkyBox').SkyBox} [options.skybox] - Render skybox. null - default.
+     * @param {string} [options.name] - Planet name. Default is unic identifier.
+     * @param {import('./terrain').terrain} [options.terrain] - Terrain provider. Default no terrain - og.terrain.EmptyTerrain.
+     * @param {import('./control/Control').Control[]} [options.controls] - Renderer controls array.
+     * @param {import('./layer/Layer').Layer[]} [options.layers] - Planet layers.
+     * @param {import('./Extent').Extent} [options.viewExtent] - Viewable starting extent.
+     * @param {boolean} [options.autoActivate] - Globe rendering auto activation flag. True is default.
+     * @param {DOMElement} [options.attributionContainer] - Container for attribution list.
+     * @param {Number} [options.maxGridSize=7] = Maximal segment grid size.
+     */
     constructor(options) {
-
         // Canvas creation
         var _canvasId = CANVAS_ID_PREFIX + Globe._staticCounter++;
 
@@ -89,12 +91,13 @@ class Globe {
         }
 
         this.div.onmouseenter = function () {
-            document.addEventListener('mousewheel', _disableWheel, {
-                capture: false, passive: false
+            document.addEventListener("mousewheel", _disableWheel, {
+                capture: false,
+                passive: false
             });
         };
         this.div.onmouseleave = function () {
-            document.removeEventListener('mousewheel', _disableWheel);
+            document.removeEventListener("mousewheel", _disableWheel);
         };
 
         /**
@@ -109,9 +112,11 @@ class Globe {
                     antialias: false,
                     powerPreference: "high-performance"
                 }
-            }), {
+            }),
+            {
                 autoActivate: false
-            });
+            }
+        );
         this.renderer.initialize();
         this.renderer.div = this.div;
         this.renderer.div.attributions = document.createElement("div");
@@ -140,11 +145,13 @@ class Globe {
              * @public
              * @type {og.scene.Planet|og.scene.PlanetAtmosphere}
              */
-
             // TODO:
-
         } else {
-            this.planet = new Planet(this._planetName, options.ellipsoid ? options.ellipsoid : wgs84, options.maxGridSize);
+            this.planet = new Planet(
+                this._planetName,
+                options.ellipsoid ? options.ellipsoid : wgs84,
+                options.maxGridSize
+            );
         }
 
         // Attach terrain provider
@@ -251,6 +258,6 @@ class Globe {
     static isUndefined(obj) {
         return obj === void 0;
     }
-};
+}
 
 export { Globe };

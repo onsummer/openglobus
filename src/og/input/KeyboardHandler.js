@@ -2,49 +2,62 @@
  * @module og/input/KeyboardHandler
  */
 
-'use strict';
+"use strict";
 
-import { input } from './input.js';
+import { input } from "./input.js";
 
-const KeyboardHandler = function () {
-    var _currentlyPressedKeys = {};
-    var _pressedKeysCallbacks = {};
-    var _unpressedKeysCallbacks = {};
-    var _charkeysCallbacks = {};
-    var _that = this;
-    var _anykeyCallback = null;
-    var _event = null;
+/**
+ * @class
+ */
+class KeyboardHandler {
+    constructor() {
+        this._currentlyPressedKeys = {};
+        this._pressedKeysCallbacks = {};
+        this._unpressedKeysCallbacks = {};
+        this._charkeysCallbacks = {};
+        this._that = this;
+        this._anykeyCallback = null;
+        this._event = null;
+        this._active = true;
 
-    var _active = true;
+        if (KeyboardHandler.prototype._instance) {
+            return KeyboardHandler.prototype._instance;
+        } else {
+            KeyboardHandler.prototype._instance = this;
 
-    if (KeyboardHandler.prototype._instance) {
-        return KeyboardHandler.prototype._instance;
-    } else {
-        KeyboardHandler.prototype._instance = this;
-
-        document.onkeydown = function (event) { _event = event; _active && _that.handleKeyDown(); };
-        document.onkeyup = function (event) { _event = event; _active && _that.handleKeyUp(); };
+            document.onkeydown((event) => {
+                _event = event;
+                _active && _that.handleKeyDown();
+            });
+            document.onkeyup((event) => {
+                _event = event;
+                _active && _that.handleKeyUp();
+            });
+        }
     }
 
-    var _sortByPriority = function (a, b) {
+    _sortByPriority(a, b) {
         return a.priority < b.priority;
-    };
+    }
 
-    this.removeEvent = function (events, callback) {
+    /**
+     * @todo
+     */
+    removeEvent(events, callback) {
         //
         // TODO:...
         //
-    };
+    }
 
-    this.setActivity = function (activity) {
+    setActivity(activity) {
         _active = activity;
-    };
+    }
 
-    this.releaseKeys = function () {
+    releaseKeys() {
         _currentlyPressedKeys = {};
     }
 
-    this.addEvent = function (event, sender, callback, keyCode, priority) {
+    addEvent(event, sender, callback, keyCode, priority) {
         if (priority === undefined) {
             priority = 1600;
         }
@@ -53,7 +66,11 @@ const KeyboardHandler = function () {
                 if (!_unpressedKeysCallbacks[keyCode]) {
                     _unpressedKeysCallbacks[keyCode] = [];
                 }
-                _unpressedKeysCallbacks[keyCode].push({ callback: callback, sender: sender, priority: priority });
+                _unpressedKeysCallbacks[keyCode].push({
+                    callback: callback,
+                    sender: sender,
+                    priority: priority
+                });
                 _unpressedKeysCallbacks[keyCode].sort(_sortByPriority);
                 break;
 
@@ -64,7 +81,11 @@ const KeyboardHandler = function () {
                     if (!_pressedKeysCallbacks[keyCode]) {
                         _pressedKeysCallbacks[keyCode] = [];
                     }
-                    _pressedKeysCallbacks[keyCode].push({ callback: callback, sender: sender, priority: priority });
+                    _pressedKeysCallbacks[keyCode].push({
+                        callback: callback,
+                        sender: sender,
+                        priority: priority
+                    });
                     _pressedKeysCallbacks[keyCode].sort(_sortByPriority);
                 }
                 break;
@@ -73,17 +94,21 @@ const KeyboardHandler = function () {
                 if (!_charkeysCallbacks[keyCode]) {
                     _charkeysCallbacks[keyCode] = [];
                 }
-                _charkeysCallbacks[keyCode].push({ callback: callback, sender: sender, priority: priority });
+                _charkeysCallbacks[keyCode].push({
+                    callback: callback,
+                    sender: sender,
+                    priority: priority
+                });
                 _charkeysCallbacks[keyCode].sort(_sortByPriority);
                 break;
         }
-    };
+    }
 
-    this.isKeyPressed = function (keyCode) {
+    isKeyPressed(keyCode) {
         return _currentlyPressedKeys[keyCode];
-    };
+    }
 
-    this.handleKeyDown = function () {
+    handleKeyDown() {
         _anykeyCallback && _anykeyCallback.callback.call(_anykeyCallback.sender, _event);
         _currentlyPressedKeys[_event.keyCode] = true;
         for (var ch in _charkeysCallbacks) {
@@ -98,12 +123,15 @@ const KeyboardHandler = function () {
         if (_event.keyCode == input.KEY_ALT || _event.keyCode == input.KEY_SHIFT) {
             _event.preventDefault();
         }
-    };
+    }
 
-    this.handleKeyUp = function () {
+    handleKeyUp() {
         if (_currentlyPressedKeys[_event.keyCode] || _event.keyCode === input.KEY_PRINTSCREEN) {
             for (var pk in _unpressedKeysCallbacks) {
-                if (_currentlyPressedKeys[pk] || _event.keyCode === input.KEY_PRINTSCREEN && pk == input.KEY_PRINTSCREEN) {
+                if (
+                    _currentlyPressedKeys[pk] ||
+                    (_event.keyCode === input.KEY_PRINTSCREEN && pk == input.KEY_PRINTSCREEN)
+                ) {
                     var cpk = _unpressedKeysCallbacks[pk];
                     for (var i = 0; i < cpk.length; i++) {
                         cpk[i].callback.call(cpk[i].sender, _event);
@@ -112,9 +140,9 @@ const KeyboardHandler = function () {
             }
         }
         _currentlyPressedKeys[_event.keyCode] = false;
-    };
+    }
 
-    this.handleEvents = function () {
+    handleEvents() {
         for (var pk in _pressedKeysCallbacks) {
             if (_currentlyPressedKeys[pk]) {
                 var cpk = _pressedKeysCallbacks[pk];
@@ -123,7 +151,7 @@ const KeyboardHandler = function () {
                 }
             }
         }
-    };
-};
+    }
+}
 
 export { KeyboardHandler };
