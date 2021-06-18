@@ -7,6 +7,7 @@
   },
   "main": "./src/og/index.js",
   "style": "./css/og.css",
+  "types": "./dist/typings/index.d.ts",
   "scripts": {
     "api": "./node_modules/.bin/jsdoc -t ./jsdoc -r ./src/ -c ./jsdoc/conf.json -d ./api",
     "serve": "node_modules/.bin/ws",
