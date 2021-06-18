@@ -133,7 +133,7 @@ class LonLat {
     /**
      * Creates coordinates array.
      * @static
-     * @param {[number, number, number][]} arr - Coordinates array data.
+     * @param {number[][]} arr - Coordinates array data.
      * @return {LonLat[]} the same coordinates array but each element is LonLat instance.
      */
     static join(arr) {
@@ -148,7 +148,7 @@ class LonLat {
     /**
      * Creates an object by coordinate array.
      * @static
-     * @param {[number,number,number][]} arr - Coordiante array, where first is longitude, second is latitude and third is a height.
+     * @param {number[][]} arr - Coordiante array, where first is longitude, second is latitude and third is a height.
      * @returns {LonLat}
      */
     static createFromArray(arr) {

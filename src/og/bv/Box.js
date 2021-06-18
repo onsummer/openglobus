@@ -5,6 +5,8 @@
 "use strict";
 
 import { Vec3 } from "../math/Vec3.js";
+import { Ellipsoid } from "../ellipsoid";
+import { Extent } from "../Extent";
 
 /**
  * Bounding box class.
@@ -15,7 +17,7 @@ class Box {
         /**
          * Vertices array.
          * @public
-         * @type {[Vec3,Vec3,Vec3,Vec3,Vec3,Vec3,Vec3,Vec3]}
+         * @type {Vec3[]}
          */
         this.vertices = [
             new Vec3(),
@@ -35,7 +37,7 @@ class Box {
 
     /**
      * Sets bounding box coordinates by the bounds array.
-     * @param {[number,number,number,number,number,number]} bounds - Bounds is an array where [minX, minY, minZ, maxX, maxY, maxZ]
+     * @param {number[]} bounds - Bounds is an array where [minX, minY, minZ, maxX, maxY, maxZ]
      */
     setFromBoundsArr(bounds) {
         var xmin = bounds[0],
@@ -59,8 +61,8 @@ class Box {
 
     /**
      * Sets bounding box coordiantes by ellipsoid geodetic extend.
-     * @param {import('../ellipsoid').Ellipsoid} ellipsoid - Ellipsoid.
-     * @param {import('../Extent').Extent} extent - Geodetic extent.
+     * @param {Ellipsoid} ellipsoid - Ellipsoid.
+     * @param {Extent} extent - Geodetic extent.
      */
     setFromExtent(ellipsoid, extent) {
         this.setFromBoundsArr(extent.getCartesianBounds(ellipsoid));

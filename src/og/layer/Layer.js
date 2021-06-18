@@ -11,6 +11,7 @@ import { Extent } from "../Extent.js";
 import { LonLat } from "../LonLat.js";
 import { Material } from "./Material.js";
 import { Vec3 } from "../math/Vec3.js";
+import { Planet } from "../scene";
 
 export const FADING_FACTOR = 0.29;
 
@@ -53,7 +54,7 @@ class Layer {
      * @param {string} [name="noname"] - Layer name.
      * @param {Object} [options] - Layer options:
      * @param {number} [options.opacity=1.0] - Layer opacity.
-     * @param {[number,number,number]} [options.transparentColor=[-1,-1,-1]] - RGB color that defines transparent color.
+     * @param {number[]} [options.transparentColor=[-1,-1,-1]] - RGB color that defines transparent color.
      * @param {number} [options.minZoom=0] - Minimal visibility zoom level.
      * @param {number} [options.maxZoom=0] - Maximal visibility zoom level.
      * @param {string} [options.attribution] - Layer attribution that displayed in the attribution area on the screen.
@@ -90,7 +91,7 @@ class Layer {
         /**
          * Transparent RGB color mask.
          * @public
-         * @type {Array.<number,number,number>}
+         * @type {number[]}
          */
         this.transparentColor = options.transparentColor || [-1, -1, -1];
 
@@ -121,7 +122,7 @@ class Layer {
         /**
          * Planet node.
          * @protected
-         * @type {og.scene.Planet}
+         * @type {Planet}
          */
         this._planet = null;
 
@@ -316,7 +317,7 @@ class Layer {
      * Assign the planet.
      * @protected
      * @virtual
-     * @param {import('../scene/Planet').Planet} planet - Planet render node.
+     * @param {Planet} planet - Planet render node.
      */
     _assignPlanet(planet) {
         planet.layers.push(this);
@@ -343,7 +344,7 @@ class Layer {
     /**
      * Adds layer to the planet.
      * @public
-     * @param {import('../scene/Planet').Planet} planet - Adds layer to the planet.
+     * @param {Planet} planet - Adds layer to the planet.
      */
     addTo(planet) {
         if (!this._planet) {

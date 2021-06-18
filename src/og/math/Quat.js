@@ -326,7 +326,7 @@ class Quat {
     /**
      * Converts Quat values to array.
      * @public
-     * @returns {[number,number,number,number]} -
+     * @returns {number[]} -
      */
     toVec() {
         return [this.x, this.y, this.z, this.w];

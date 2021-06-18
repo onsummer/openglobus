@@ -16,7 +16,7 @@ class Mat4 {
     constructor() {
         /**
          * A 4x4 matrix, indexable as a column-major order array.
-         * @type {[number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number]}
+         * @type {number[]}
          */
         this._m = new Array(16).fill(0);
     }
@@ -50,7 +50,7 @@ class Mat4 {
     /**
      * Sets column-major order array matrix.
      * @public
-     * @param {[number,number,number,number,number,number,number,number,number,number,number,number,number,number,number,number]} m - Matrix array.
+     * @param {number[]} m - Matrix array.
      * @returns {Mat4} -
      */
     set(m) {

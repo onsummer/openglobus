@@ -41,7 +41,7 @@ class KeyboardHandler {
     }
 
     /**
-     * @todo
+     * @todo todo
      */
     removeEvent(events, callback) {
         //

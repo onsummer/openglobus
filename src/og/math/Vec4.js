@@ -46,7 +46,7 @@ class Vec4 {
     /**
      * Creates 4d vector from array.
      * @static
-     * @param {[number, number, number, number]} arr
+     * @param {number[]} arr
      * @returns {Vec4}
      */
     static fromVec(arr) {
@@ -97,7 +97,7 @@ class Vec4 {
     /**
      * Converts vector to a number array.
      * @public
-     * @returns {[number,number,number,number]}
+     * @returns {number[]}
      * @deprecated
      */
     toVec() {
@@ -107,7 +107,7 @@ class Vec4 {
     /**
      * Converts vector to a number array.
      * @public
-     * @returns {[number,number,number,number]}
+     * @returns {number[]}
      */
     toArray() {
         return [this.x, this.y, this.z, this.w];

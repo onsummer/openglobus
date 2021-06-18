@@ -6,6 +6,7 @@
 
 import * as math from "../math.js";
 import { Vec3 } from "./Vec3.js";
+import { Sphere } from "../shapes";
 
 /**
  * Represents a ray that extends infinitely from the provided origin in the provided direction.
@@ -163,7 +164,7 @@ class Ray {
     /**
      * Returns a ray hit sphere coordiante. If there isn't hit returns null.
      * @public
-     * @param {import('../shapes/Sphere').Sphere} sphere - Sphere object.
+     * @param {Sphere} sphere - Sphere object.
      * @returns {Vec3}
      */
     hitSphere(sphere) {
@@ -206,7 +207,7 @@ class Ray {
     }
 
     /**
-     * @todo
+     * @todo todo.
      * @private
      */
     hitBox(box) {

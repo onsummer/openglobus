@@ -1,6 +1,7 @@
 "use strict";
 
 import { Mat4 } from "../math/Mat4.js";
+import { Sphere, Box } from "../bv";
 
 function planeNormalize(plane) {
     var t = 1.0 / Math.sqrt(plane[0] * plane[0] + plane[1] * plane[1] + plane[2] * plane[2]);
@@ -233,7 +234,7 @@ class Frustum {
     /**
      * Returns true if the frustum contains a bonding sphere, but bottom plane exclude.
      * @public
-     * @param {import('../bv/Sphere').Sphere} sphere - Bounding sphere.
+     * @param {Sphere} sphere - Bounding sphere.
      * @returns {boolean} -
      */
     containsSphereBottomExc(sphere) {
@@ -257,7 +258,7 @@ class Frustum {
     /**
      * Returns true if the frustum contains a bonding sphere.
      * @public
-     * @param {import('../bv/Sphere').Sphere} sphere - Bounding sphere.
+     * @param {Sphere} sphere - Bounding sphere.
      * @returns {boolean} -
      */
     containsSphere(sphere) {
@@ -293,7 +294,7 @@ class Frustum {
     /**
      * Returns true if the frustum contains a bounding box.
      * @public
-     * @param {import('../bv/Box').Box} box - Bounding box.
+     * @param {Box} box - Bounding box.
      * @returns {boolean} -
      */
     containsBox(box) {

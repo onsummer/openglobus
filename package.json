@@ -55,6 +55,7 @@
     "jaguarjs-jsdoc": "^1.1.0",
     "jest": "^26.6.3",
     "jsdoc": "^3.6.7",
+    "jsdoc-plugin-typescript": "^2.0.5",
     "lint-staged": "^11.0.0",
     "local-web-server": "^3.0.7",
     "msdf-bmfont-xml": "^2.5.4",

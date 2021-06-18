@@ -5,7 +5,7 @@
 import * as math from "./math.js";
 import * as mercator from "./mercator.js";
 import { LonLat } from "./LonLat.js";
-
+import { Ellipsoid } from "./ellipsoid";
 /**
  * Represents geographical coordinates extent.
  * @class
@@ -33,7 +33,7 @@ class Extent {
     /**
      * Creates extent instance from values in array.
      * @static
-     * @param {[number,number,number,number]} arr - South west and north east longitude and latidudes packed in array.
+     * @param {number[]} arr - South west and north east longitude and latidudes packed in array.
      * @returns {Extent} Extent object.
      */
     static createFromArray(arr) {
@@ -63,7 +63,7 @@ class Extent {
     /**
      * Creates bound extent instance by coordinate array.
      * @static
-     * @param {[number, number][]} arr - Coordinate array.
+     * @param {number[][]} arr - Coordinate array.
      * @returns {Extent} Extent object.
      */
     static createByCoordinatesArr(arr) {
@@ -306,8 +306,8 @@ class Extent {
     /**
      * Gets cartesian bounding bounds of the current ellipsoid.
      * @public
-     * @param {import('./ellipsoid/Ellipsoid.js').Ellipsoid} ellipsoid - Ellipsoid.
-     * @return {[number,number,number,number,number,number]} Cartesian 3d coordinate array.
+     * @param {Ellipsoid} ellipsoid - Ellipsoid.
+     * @return {number[]} Cartesian 3d coordinate array.
      */
     getCartesianBounds(ellipsoid) {
         // prettier-ignore

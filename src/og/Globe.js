@@ -4,20 +4,24 @@
 
 "use strict";
 
-import { EmptyTerrain } from "./terrain/EmptyTerrain.js";
-import { Handler } from "./webgl/Handler.js";
-import { Planet } from "./scene/Planet.js";
+import {
+    CompassButton,
+    Control,
+    EarthCoordinates,
+    MouseNavigation,
+    ScaleControl,
+    Sun,
+    TouchNavigation,
+    ZoomControl
+} from "./control";
+import { wgs84 } from "./ellipsoid";
+import { Extent } from "./Extent.js";
+import { Layer } from "./layer";
 import { Renderer } from "./renderer/Renderer.js";
-import { wgs84 } from "./ellipsoid/wgs84.js";
+import { SkyBox, Planet } from "./scene";
+import { terrain, EmptyTerrain } from "./terrain";
 import { isEmpty } from "./utils/shared.js";
-
-import { EarthCoordinates } from "./control/EarthCoordinates.js";
-import { MouseNavigation } from "./control/MouseNavigation.js";
-import { TouchNavigation } from "./control/TouchNavigation.js";
-import { Sun } from "./control/Sun.js";
-import { ZoomControl } from "./control/ZoomControl.js";
-import { ScaleControl } from "./control/ScaleControl.js";
-import { CompassButton } from "./control/CompassButton.js";
+import { Handler } from "./webgl/Handler.js";
 
 /** @const {string} */
 const CANVAS_ID_PREFIX = "globus_viewport_";
@@ -55,12 +59,12 @@ class Globe {
      * @constructor
      * @param {object} options - Options:
      * @param {string} options.target - HTML element id where planet canvas have to be created.
-     * @param {import('./scene/SkyBox').SkyBox} [options.skybox] - Render skybox. null - default.
+     * @param {SkyBox} [options.skybox] - Render skybox. null - default.
      * @param {string} [options.name] - Planet name. Default is unic identifier.
-     * @param {import('./terrain').terrain} [options.terrain] - Terrain provider. Default no terrain - og.terrain.EmptyTerrain.
-     * @param {import('./control/Control').Control[]} [options.controls] - Renderer controls array.
-     * @param {import('./layer/Layer').Layer[]} [options.layers] - Planet layers.
-     * @param {import('./Extent').Extent} [options.viewExtent] - Viewable starting extent.
+     * @param {terrain} [options.terrain] - Terrain provider. Default no terrain - og.terrain.EmptyTerrain.
+     * @param {Control[]} [options.controls] - Renderer controls array.
+     * @param {Layer[]} [options.layers] - Planet layers.
+     * @param {Extent} [options.viewExtent] - Viewable starting extent.
      * @param {boolean} [options.autoActivate] - Globe rendering auto activation flag. True is default.
      * @param {DOMElement} [options.attributionContainer] - Container for attribution list.
      * @param {Number} [options.maxGridSize=7] = Maximal segment grid size.

@@ -27,7 +27,7 @@ class Mat3 {
     /**
      * Sets column-major order array matrix.
      * @public
-     * @param {[number,number,number,number,number,number,number,number,number]} arr - Matrix array.
+     * @param {number[]} arr - Matrix array.
      * @returns {Mat3}
      */
     set(arr) {

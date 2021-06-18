@@ -299,7 +299,7 @@ class Vec2 {
     /**
      * Gets vectors dot production.
      * @public
-     * @param {[number, number]} arr - Array vector.
+     * @param {number[]} arr - Array vector.
      * @returns {number}
      */
     dotArr(arr) {
@@ -360,7 +360,7 @@ class Vec2 {
     /**
      * Converts vector to a number array.
      * @public
-     * @returns {[number, number]}
+     * @returns {number[]}
      */
     toVec() {
         return [this.x, this.y];

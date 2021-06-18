@@ -5,6 +5,8 @@
 "use strict";
 
 import { Vec3 } from "../math/Vec3.js";
+import { Ellipsoid } from "../ellipsoid";
+import { Extent } from "../Extent";
 
 /**
  * @classdesc
@@ -48,8 +50,8 @@ class Sphere {
 
     /**
      * Sets bounding sphere coordiantes by ellipsoid geodetic extend.
-     * @param {import('../ellipsoid').Ellipsoid} ellipsoid - Ellipsoid.
-     * @param {import('../Extent').Extent} extent - Geodetic extent.
+     * @param {Ellipsoid} ellipsoid - Ellipsoid.
+     * @param {Extent} extent - Geodetic extent.
      */
     setFromExtent(ellipsoid, extent) {
         this.setFromBounds(extent.getCartesianBounds(ellipsoid));

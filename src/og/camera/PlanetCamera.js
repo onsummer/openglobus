@@ -6,6 +6,8 @@
 
 import * as math from "../math.js";
 import * as mercator from "../mercator.js";
+import { Planet } from "../scene";
+import { Extent } from "../Extent.js";
 import { Camera } from "./Camera.js";
 import { Vec3 } from "../math/Vec3.js";
 import { Key } from "../Lock.js";
@@ -22,7 +24,7 @@ import { Mat4 } from "../math/Mat4.js";
 class PlanetCamera extends Camera {
     /**
      * @constructor
-     * @param {import('../scene/Planet').Planet} planet - Planet render node.
+     * @param {Planet} planet - Planet render node.
      * @param {Object} [options] - Planet camera options:
      * @param {Object} [options.name] - Camera name.
      * @param {number} [options.viewAngle=37] - Camera angle of view. Default is 35.0
@@ -52,7 +54,7 @@ class PlanetCamera extends Camera {
         /**
          * Assigned camera's planet.
          * @public
-         * @type {import('../scene/Planet').Planet}
+         * @type {Planet}
          */
         this.planet = planet;
 
@@ -199,7 +201,7 @@ class PlanetCamera extends Camera {
     /**
      * Gets position by viewable extent.
      * @public
-     * @param {import('../Extent').Extent} extent - Viewable extent.
+     * @param {Extent} extent - Viewable extent.
      * @param {number} height - Camera height
      * @returns {Vec3}
      */
@@ -269,7 +271,7 @@ class PlanetCamera extends Camera {
     /**
      * View current extent.
      * @public
-     * @param {import('../Extent').Extent} extent - Current extent.
+     * @param {Extent} extent - Current extent.
      */
     viewExtent(extent, height) {
         this.stopFlying();
@@ -280,7 +282,7 @@ class PlanetCamera extends Camera {
     /**
      * Flies to the current extent.
      * @public
-     * @param {import('../Extent').Extent} extent - Current extent.
+     * @param {Extent} extent - Current extent.
      * @param {Vec3} [up] - Camera UP in the end of flying. Default - (0,1,0)
      * @param {Number} [ampl] - Altitude amplitude factor.
      * @param {cameraCallback} [completeCallback] - Callback that calls after flying when flying is finished.

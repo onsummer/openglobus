@@ -15,8 +15,8 @@ class Line2 {
 
     /**
      *
-     * @param {import('./Vec2.js').Vec2} p0
-     * @param {import('./Vec2.js').Vec2} p1
+     * @param {Vec2} p0
+     * @param {Vec2} p1
      * @returns {Line2}
      */
     static get(p0, p1) {
