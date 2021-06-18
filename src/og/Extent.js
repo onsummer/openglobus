@@ -5,7 +5,7 @@
 import * as math from "./math.js";
 import * as mercator from "./mercator.js";
 import { LonLat } from "./LonLat.js";
-import { Ellipsoid } from "./ellipsoid";
+import { Ellipsoid } from "./ellipsoid/index.js";
 /**
  * Represents geographical coordinates extent.
  * @class

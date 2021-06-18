@@ -13,13 +13,13 @@ import {
     Sun,
     TouchNavigation,
     ZoomControl
-} from "./control";
-import { wgs84 } from "./ellipsoid";
+} from "./control/index.js";
+import { wgs84 } from "./ellipsoid/index.js";
 import { Extent } from "./Extent.js";
-import { Layer } from "./layer";
+import { Layer } from "./layer/index.js";
 import { Renderer } from "./renderer/Renderer.js";
-import { SkyBox, Planet } from "./scene";
-import { terrain, EmptyTerrain } from "./terrain";
+import { SkyBox, Planet } from "./scene/index.js";
+import { BilTerrain, EmptyTerrain, Geoid, GlobusTerrain, MapboxTerrain } from "./terrain/index.js";
 import { isEmpty } from "./utils/shared.js";
 import { Handler } from "./webgl/Handler.js";
 
@@ -29,15 +29,35 @@ const CANVAS_ID_PREFIX = "globus_viewport_";
 const PLANET_NAME_PREFIX = "globus_planet_";
 
 /**
+ * @typedef { BilTerrain | EmptyTerrain | Geoid | GlobusTerrain | MapboxTerrain } terrain
+ */
+
+/**
+ * @typedef {object} GlobeOptions
+ * @property {string} target - HTML element id where planet canvas have to be created.
+ * @property {SkyBox} [skybox] - Render skybox. null - default.
+ * @property {string} [name] - Planet name. Default is unic identifier.
+ * @property {terrain} [terrain] - Terrain provider. Default no terrain - og.terrain.EmptyTerrain.
+ * @property {Control[]} [controls] - Renderer controls array.
+ * @property {Layer[]} [layers] - Planet layers.
+ * @property {Extent} [viewExtent] - Viewable starting extent.
+ * @property {boolean} [autoActivate] - Globe rendering auto activation flag. True is default.
+ * @property {HTMLElement} [attributionContainer] - Container for attribution list.
+ * @property {number} [maxGridSize=7] = Maximal segment grid size.
+ */
+
+/**
  * Creates a WebGL context with globe.
  * @class
  *
  * @example <caption>Basic initialization</caption>
- * globus = new og.Globe({
- *     'atmosphere': false,
- *     'target': 'globus',
- *     'name': 'Earth',
- *     'controls': [
+ *
+ * ``` js
+ * const globus = new og.Globe({
+ *     atmosphere: false,
+ *     target: 'globus',
+ *     name: 'Earth',
+ *     controls: [
  *          new og.control.MouseNavigation({ autoActivate: true }),
  *          new og.control.KeyboardNavigation({ autoActivate: true }),
  *          new og.control.EarthCoordinates({ autoActivate: true, center: false }),
@@ -46,28 +66,18 @@ const PLANET_NAME_PREFIX = "globus_planet_";
  *          new og.control.TouchNavigation({ autoActivate: true }),
  *          new og.control.Sun({ autoActivate: true })
  *      ],
- *     'terrain': new og.terrain.GlobusTerrain(),
- *     'layers': [
- *          new og.layer.XYZ("OpenStreetMap", { isBaseLayer: true, url: "http://b.tile.openstreetmap.org/{z}/{x}/{y}.png", visibility: true, attribution: 'Data @ <a href="http://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="http://www.openstreetmap.org/copyright">ODbL</a>' })
- *      ],
- *     'autoActivate': true
+ *     terrain: new og.terrain.GlobusTerrain(),
+ *     layers: [
+ *         new og.layer.XYZ("OpenStreetMap", { isBaseLayer: true, url: "http://b.tile.openstreetmap.org/{z}/{x}/{y}.png", visibility: true, attribution: 'Data @ <a href="http://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="http://www.openstreetmap.org/copyright">ODbL</a>' })
+ *     ],
+ *     autoActivate: true
  * });
- *
+ * ```
  */
 class Globe {
     /**
      * @constructor
-     * @param {object} options - Options:
-     * @param {string} options.target - HTML element id where planet canvas have to be created.
-     * @param {SkyBox} [options.skybox] - Render skybox. null - default.
-     * @param {string} [options.name] - Planet name. Default is unic identifier.
-     * @param {terrain} [options.terrain] - Terrain provider. Default no terrain - og.terrain.EmptyTerrain.
-     * @param {Control[]} [options.controls] - Renderer controls array.
-     * @param {Layer[]} [options.layers] - Planet layers.
-     * @param {Extent} [options.viewExtent] - Viewable starting extent.
-     * @param {boolean} [options.autoActivate] - Globe rendering auto activation flag. True is default.
-     * @param {DOMElement} [options.attributionContainer] - Container for attribution list.
-     * @param {Number} [options.maxGridSize=7] = Maximal segment grid size.
+     * @param {GlobeOptions} options
      */
     constructor(options) {
         // Canvas creation

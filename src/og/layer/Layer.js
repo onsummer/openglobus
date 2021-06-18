@@ -11,7 +11,7 @@ import { Extent } from "../Extent.js";
 import { LonLat } from "../LonLat.js";
 import { Material } from "./Material.js";
 import { Vec3 } from "../math/Vec3.js";
-import { Planet } from "../scene";
+import { Planet } from "../scene/index.js";
 
 export const FADING_FACTOR = 0.29;
 

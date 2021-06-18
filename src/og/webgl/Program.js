@@ -2,20 +2,13 @@
  * @module og/webgl/Program
  */
 
-'use strict';
+"use strict";
 
-import { callbacks } from './callbacks.js';
-import { cons } from '../cons.js';
-import { typeStr } from './types.js';
+import { callbacks } from "./callbacks.js";
+import { cons } from "../cons.js";
+import { typeStr } from "./types.js";
 
-const itemTypes = [
-    "BYTE",
-    "SHORT",
-    "UNSIGNED_BYTE",
-    "UNSIGNED_SHORT",
-    "FLOAT",
-    "HALF_FLOAT"
-];
+const itemTypes = ["BYTE", "SHORT", "UNSIGNED_BYTE", "UNSIGNED_SHORT", "FLOAT", "HALF_FLOAT"];
 
 /**
  * Represents more comfortable using WebGL shader program.
@@ -46,9 +39,11 @@ class Program {
          */
         this._attributes = {};
         for (let t in material.attributes) {
-            if (typeof (material.attributes[t]) === "string" ||
-                typeof (material.attributes[t]) === "number") {
-                this._attributes[t] = { 'type': material.attributes[t] };
+            if (
+                typeof material.attributes[t] === "string" ||
+                typeof material.attributes[t] === "number"
+            ) {
+                this._attributes[t] = { type: material.attributes[t] };
             } else {
                 this._attributes[t] = material.attributes[t];
             }
@@ -61,9 +56,11 @@ class Program {
          */
         this._uniforms = {};
         for (let t in material.uniforms) {
-            if (typeof (material.uniforms[t]) === "string" ||
-                typeof (material.uniforms[t]) === "number") {
-                this._uniforms[t] = { 'type': material.uniforms[t] };
+            if (
+                typeof material.uniforms[t] === "string" ||
+                typeof material.uniforms[t] === "number"
+            ) {
+                this._uniforms[t] = { type: material.uniforms[t] };
             } else {
                 this._uniforms[t] = material.uniforms[t];
             }
@@ -114,7 +111,7 @@ class Program {
         /**
          * Program attributes array.
          * @private
-         * @type {Array.<Object>}
+         * @type {object[]}
          */
         this._attribArrays = [];
     }
@@ -122,13 +119,20 @@ class Program {
     /**
      * Bind program buffer.
      * @function
-     * @param {og.webgl.Program} program - Used program.
-     * @param {Object} variable - Variable represents buffer data.
+     * @param {Program} program - Used program.
+     * @param {object} variable - Variable represents buffer data.
      */
     static bindBuffer(program, variable) {
         var gl = program.gl;
         gl.bindBuffer(gl.ARRAY_BUFFER, variable.value);
-        gl.vertexAttribPointer(variable._pName, variable.value.itemSize, variable.itemType, variable.normalized, 0, 0);
+        gl.vertexAttribPointer(
+            variable._pName,
+            variable.value.itemSize,
+            variable.itemType,
+            variable.normalized,
+            0,
+            0
+        );
     }
 
     /**
@@ -142,7 +146,7 @@ class Program {
     /**
      * Sets program variables.
      * @public
-     * @param {Object} material - Variables and values object.
+     * @param {object} material - Variables and values object.
      */
     set(material) {
         this._textureID = 0;
@@ -168,7 +172,7 @@ class Program {
      * Calls drawElements index buffer function.
      * @public
      * @param {number} mode - Draw mode(GL_TRIANGLES, GL_LINESTRING etc.).
-     * @param {Object} buffer - Index buffer.
+     * @param {object} buffer - Index buffer.
      */
     drawIndexBuffer(mode, buffer) {
         this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, buffer);
@@ -188,7 +192,7 @@ class Program {
     /**
      * Check and log for an shader compile errors and warnings. Returns True - if no errors otherwise returns False.
      * @private
-     * @param {Object} shader - WebGl shader program.
+     * @param {object} shader - WebGl shader program.
      * @param {string} src - Shader program source.
      * @returns {boolean} -
      */
@@ -196,7 +200,9 @@ class Program {
         this.gl.shaderSource(shader, src);
         this.gl.compileShader(shader);
         if (!this.gl.getShaderParameter(shader, this.gl.COMPILE_STATUS)) {
-            cons.logErr("og/Program/Program:" + this.name + " - " + this.gl.getShaderInfoLog(shader) + ".");
+            cons.logErr(
+                "og/Program/Program:" + this.name + " - " + this.gl.getShaderInfoLog(shader) + "."
+            );
             return false;
         }
         return true;
@@ -206,7 +212,7 @@ class Program {
      * Returns compiled vertex shader program pointer.
      * @private
      * @param {string} src - Vertex shader source code.
-     * @returns {Object} -
+     * @returns {object} -
      */
     _createVertexShader(src) {
         var shader = this.gl.createShader(this.gl.VERTEX_SHADER);
@@ -220,7 +226,7 @@ class Program {
      * Returns compiled fragment shader program pointer.
      * @private
      * @param {string} src - Vertex shader source code.
-     * @returns {Object} -
+     * @returns {object} -
      */
     _createFragmentShader(src) {
         var shader = this.gl.createShader(this.gl.FRAGMENT_SHADER);
@@ -267,7 +273,7 @@ class Program {
     /**
      * Creates program.
      * @public
-     * @param {Object} gl - WebGl context.
+     * @param {object} gl - WebGl context.
      */
     createProgram(gl) {
         this.gl = gl;
@@ -280,7 +286,13 @@ class Program {
         gl.linkProgram(this._p);
 
         if (!gl.getProgramParameter(this._p, gl.LINK_STATUS)) {
-            cons.logErr("og/Program/Program:" + this.name + " - couldn't initialise shaders. " + gl.getProgramInfoLog(this._p) + ".");
+            cons.logErr(
+                "og/Program/Program:" +
+                    this.name +
+                    " - couldn't initialise shaders. " +
+                    gl.getProgramInfoLog(this._p) +
+                    "."
+            );
             gl.deleteProgram(this._p);
             return;
         }
@@ -293,9 +305,13 @@ class Program {
 
             this._attributes[a]._callback = Program.bindBuffer;
 
-            let itemTypeStr = this._attributes[a].itemType ? this._attributes[a].itemType.trim().toUpperCase() : "FLOAT";
+            let itemTypeStr = this._attributes[a].itemType
+                ? this._attributes[a].itemType.trim().toUpperCase()
+                : "FLOAT";
             if (itemTypes.indexOf(itemTypeStr) == -1) {
-                cons.logErr(`og/Program/Program: ${this.name}- attribute '${a}', item type ${this._attributes[a].itemType} not exists.`);
+                cons.logErr(
+                    `og/Program/Program: ${this.name}- attribute '${a}', item type ${this._attributes[a].itemType} not exists.`
+                );
                 this._attributes[a].itemType = gl.FLOAT;
             } else {
                 this._attributes[a].itemType = gl[itemTypeStr];
@@ -306,7 +322,9 @@ class Program {
             this._p[a] = gl.getAttribLocation(this._p, a);
 
             if (this._p[a] == undefined) {
-                cons.logErr("og/Program/Program:" + this.name + " - attribute '" + a + "' is not exists.");
+                cons.logErr(
+                    "og/Program/Program:" + this.name + " - attribute '" + a + "' is not exists."
+                );
                 gl.deleteProgram(this._p);
                 return;
             }
@@ -321,8 +339,9 @@ class Program {
         for (var u in this._uniforms) {
             //this.uniforms[u]._name = u;
 
-            if (typeof (this._uniforms[u].type) === "string") {
-                this._uniforms[u]._callback = callbacks.u[typeStr[this._uniforms[u].type.trim().toLowerCase()]];
+            if (typeof this._uniforms[u].type === "string") {
+                this._uniforms[u]._callback =
+                    callbacks.u[typeStr[this._uniforms[u].type.trim().toLowerCase()]];
             } else {
                 this._uniforms[u]._callback = callbacks.u[this._uniforms[u].type];
             }
@@ -331,7 +350,9 @@ class Program {
             this._p[u] = gl.getUniformLocation(this._p, u);
 
             if (this._p[u] == undefined) {
-                cons.logErr("og/Program/Program:" + this.name + " - uniform '" + u + "' is not exists.");
+                cons.logErr(
+                    "og/Program/Program:" + this.name + " - uniform '" + u + "' is not exists."
+                );
                 gl.deleteProgram(this._p);
                 return;
             }
@@ -346,6 +367,6 @@ class Program {
         gl.deleteShader(fs);
         gl.deleteShader(vs);
     }
-};
+}
 
 export { Program };

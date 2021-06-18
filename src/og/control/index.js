@@ -1,29 +1,15 @@
-import { Control } from './Control.js';
-import { DebugInfo } from './DebugInfo';
-import { EarthCoordinates } from './EarthCoordinates.js';
-import { GeoImageDragControl } from './GeoImageDragControl.js';
-import { KeyboardNavigation } from './KeyboardNavigation.js';
-import { LayerSwitcher } from './LayerSwitcher.js';
-import { MouseNavigation } from './MouseNavigation.js';
-import { ToggleWireframe } from './ToggleWireframe.js';
-import { TouchNavigation } from './TouchNavigation.js';
-import { SimpleNavigation } from './SimpleNavigation.js';
-import { ShowFps } from './ShowFps.js';
-import { Sun } from './Sun.js';
-import { ZoomControl } from './ZoomControl.js';
-
-export {
-    Control,
-    DebugInfo,
-    EarthCoordinates,
-    GeoImageDragControl,
-    KeyboardNavigation,
-    LayerSwitcher,
-    MouseNavigation,
-    ToggleWireframe,
-    TouchNavigation,
-    SimpleNavigation,
-    ShowFps,
-    Sun,
-    ZoomControl
-};
+export * from "./Control.js";
+export * from "./DebugInfo";
+export * from "./EarthCoordinates.js";
+export * from "./GeoImageDragControl.js";
+export * from "./KeyboardNavigation.js";
+export * from "./LayerSwitcher.js";
+export * from "./MouseNavigation.js";
+export * from "./ToggleWireframe.js";
+export * from "./TouchNavigation.js";
+export * from "./SimpleNavigation.js";
+export * from "./ShowFps.js";
+export * from "./Sun.js";
+export * from "./ZoomControl.js";
+export * from "./ScaleControl.js";
+export * from "./CompassButton.js";

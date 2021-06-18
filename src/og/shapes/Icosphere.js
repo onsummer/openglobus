@@ -2,35 +2,43 @@
  * @module og/shape/BaseShape
  */
 
-'use strict';
+"use strict";
 
-import { BaseShape } from './BaseShape.js';
+import { BaseShape } from "./BaseShape.js";
+import { Vec3 } from "../math/Vec3.js";
+import { Quat } from "../math/Quat.js";
 
 /**
  * @class
- * @extends {og.shape.BaseShape}
- * @param {Object} options - Icosphere parameters:
- * @param {og.Vec3} [options.position] - Icosphere position.
- * @param {og.Quat} [options.orientation] - Icosphere orientation(rotation).
- * @param {og.Vec3} [options.scale] - Scale vector.
- * @param {Array.<number,number,number,number>} [options.color] - Icosphere RGBA color.
- * @param {string} [options.src] - Texture image url source.
- * @param {boolean} [options.visibility] - Icosphere visibility.
- * @param {number} [options.size] - Icosphere radius.
- * @param {number} [options.level] - Icosphere complexity level.
+ * @extends {BaseShape}
+ * @see {@link BaseShape}
  */
-class Icosphere extends BaseShape {
+class IcoSphere extends BaseShape {
+    /**
+     * @constructor
+     * @param {object} options - IcoSphere parameters:
+     * @param {Vec3} [options.position] - IcoSphere position.
+     * @param {Quat} [options.orientation] - IcoSphere orientation(rotation).
+     * @param {Vec3} [options.scale] - Scale vector.
+     * @param {number[]} [options.color] - IcoSphere RGBA color.
+     * @param {string} [options.src] - Texture image url source.
+     * @param {boolean} [options.visibility] - IcoSphere visibility.
+     * @param {number} [options.size] - IcoSphere radius.
+     * @param {number} [options.level] - IcoSphere complexity level.
+     *
+     * @see {@link Vec3} {@link Quat}
+     */
     constructor(options) {
         super(options);
         /**
-         * Icosphere radius.
+         * IcoSphere radius.
          * @protected
          * @type {number}
          */
         this._size = options.size || 1.0;
 
         /**
-         * Icosphere recursion level.
+         * IcoSphere recursion level.
          * @protected
          * @type {number}
          */
@@ -45,7 +53,11 @@ class Icosphere extends BaseShape {
     // add vertex to mesh, fix position to be on unit sphere, return index
     _addVertex(p) {
         var length = Math.sqrt(p[0] * p[0] + p[1] * p[1] + p[2] * p[2]);
-        this._positionData.push(this._size * p[0] / length, this._size * p[1] / length, this._size * p[2] / length);
+        this._positionData.push(
+            (this._size * p[0]) / length,
+            (this._size * p[1]) / length,
+            (this._size * p[2]) / length
+        );
         return this._index++;
     }
 
@@ -63,9 +75,21 @@ class Icosphere extends BaseShape {
             return ret;
         }
 
-        var point1 = [this._positionData[p1 * 3], this._positionData[p1 * 3 + 1], this._positionData[p1 * 3 + 2]];
-        var point2 = [this._positionData[p2 * 3], this._positionData[p2 * 3 + 1], this._positionData[p2 * 3 + 2]];
-        var middle = [(point1[0] + point2[0]) / 2.0, (point1[1] + point2[1]) / 2.0, (point1[2] + point2[2]) / 2.0];
+        var point1 = [
+            this._positionData[p1 * 3],
+            this._positionData[p1 * 3 + 1],
+            this._positionData[p1 * 3 + 2]
+        ];
+        var point2 = [
+            this._positionData[p2 * 3],
+            this._positionData[p2 * 3 + 1],
+            this._positionData[p2 * 3 + 2]
+        ];
+        var middle = [
+            (point1[0] + point2[0]) / 2.0,
+            (point1[1] + point2[1]) / 2.0,
+            (point1[2] + point2[2]) / 2.0
+        ];
 
         // add vertex makes sure point is on unit sphere
         var i = this._addVertex(middle);
@@ -79,7 +103,6 @@ class Icosphere extends BaseShape {
      * @virtual
      */
     _createData() {
-
         this._positionData = [];
         this._indexData = [];
         this._index = 0;
@@ -113,7 +136,7 @@ class Icosphere extends BaseShape {
         faces.push([0, 7, 10]);
         faces.push([0, 10, 11]);
 
-        // 5 adjacent faces 
+        // 5 adjacent faces
         faces.push([1, 5, 9]);
         faces.push([5, 11, 4]);
         faces.push([11, 10, 2]);
@@ -127,7 +150,7 @@ class Icosphere extends BaseShape {
         faces.push([3, 6, 8]);
         faces.push([3, 8, 9]);
 
-        // 5 adjacent faces 
+        // 5 adjacent faces
         faces.push([4, 9, 5]);
         faces.push([2, 4, 11]);
         faces.push([6, 2, 10]);
@@ -161,4 +184,4 @@ class Icosphere extends BaseShape {
     }
 }
 
-export { Icosphere };
+export { IcoSphere };

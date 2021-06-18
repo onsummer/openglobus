@@ -6,7 +6,7 @@
 
 import * as math from "../math.js";
 import { Vec3 } from "./Vec3.js";
-import { Sphere } from "../shapes";
+import { Sphere } from "../shapes/index.js";
 
 /**
  * Represents a ray that extends infinitely from the provided origin in the provided direction.

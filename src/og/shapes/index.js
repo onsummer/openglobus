@@ -1,3 +1,3 @@
 export * from "./Sphere.js";
-export * from "./Icosphere.js";
+export * from "./IcoSphere.js";
 export * from "./BaseShape.js";

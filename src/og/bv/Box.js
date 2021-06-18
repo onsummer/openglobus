@@ -5,8 +5,8 @@
 "use strict";
 
 import { Vec3 } from "../math/Vec3.js";
-import { Ellipsoid } from "../ellipsoid";
-import { Extent } from "../Extent";
+import { Ellipsoid } from "../ellipsoid/index.js";
+import { Extent } from "../Extent.js";
 
 /**
  * Bounding box class.

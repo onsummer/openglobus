@@ -6,7 +6,7 @@
 
 import * as math from "../math.js";
 import * as mercator from "../mercator.js";
-import { Planet } from "../scene";
+import { Planet } from "../scene/index.js";
 import { Extent } from "../Extent.js";
 import { Camera } from "./Camera.js";
 import { Vec3 } from "../math/Vec3.js";
